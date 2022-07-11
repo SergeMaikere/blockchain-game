@@ -29,8 +29,8 @@ contract MemoryToken is ERC721Enumerable, ERC721URIStorage {
 
 	function mint ( address _to, string memory _tokenURI ) public returns(bool) {
 		uint _tokenId = totalSupply() + 1;
-		_setTokenURI(_tokenId, _tokenURI);
 		_mint(_to, _tokenId);
+		_setTokenURI(_tokenId, _tokenURI);
 		return true;
 	}
 }
