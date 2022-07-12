@@ -45,7 +45,7 @@ contract(
 
 		describe('Minting',
 			async () => {
-				it ('mints freshly',
+				it ('mints correctly fresh token',
 					async () => {
 						await token.mint(accounts[0], 'https://www.token-url.com/nft');
 

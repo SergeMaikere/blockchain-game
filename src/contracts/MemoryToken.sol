@@ -1,32 +1,20 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import './ERC721Full.sol';
 
-contract MemoryToken is ERC721Enumerable, ERC721URIStorage {
+contract MemoryToken is ERC721Full {
 
-	constructor() ERC721('Memory Token', 'MEMORY') ERC721URIStorage() ERC721Enumerable() {
+	constructor() ERC721Full('Memory Token', 'MEMORY') {
 
 	}
 
-	function _beforeTokenTransfer(address _from, address _to, uint256 _tokenId) internal override(ERC721, ERC721Enumerable) {
-		super._beforeTokenTransfer(_from, _to, _tokenId);
-	}
 
-	function supportsInterface(bytes4 _interfaceId) public view override(ERC721, ERC721Enumerable) returns (bool) {
-	    return super.supportsInterface(_interfaceId);
-	}
-
-	function _burn(uint256 _tokenId) internal virtual override(ERC721, ERC721URIStorage) {
-		super._burn(_tokenId);
-	}
-
-	function tokenURI( uint _tokenId ) public view virtual override(ERC721, ERC721URIStorage) returns(string memory) {
-		return super.tokenURI(_tokenId);
-	}
-
+	/**
+	 * @dev        Creation of a new token
+	 * @param      _to        address of token's owner
+	 * @param      _tokenURI  The token uri
+	 */
 	function mint ( address _to, string memory _tokenURI ) public returns(bool) {
 		uint _tokenId = totalSupply() + 1;
 		_mint(_to, _tokenId);
