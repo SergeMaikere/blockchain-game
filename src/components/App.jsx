@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import MemoryToken from '../abis/MemoryToken.json';
+import Navbar from './Navbar';
 
 
 const App = () => {
@@ -63,6 +64,7 @@ const App = () => {
 
   	return (
     	<div className="App">
+    		<Navbar account={account}/>
     		<h1>Hello Worlds</h1>
     	</div>
   	);
