@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 const CARDS = [
@@ -74,31 +74,71 @@ const Simg = styled.img`
 
 const Game = () => {
 
-	const randomSortCards = arr => [ ...arr.sort(() => 0.5 - Math.random()) ]
-	
-	const setCardFace = card => card.selected ? card.img : '/images/blank.png';
-
+	/**
+	 * Returns an array of jsx elements
+	 *
+	 * @param      Array  of objects
+	 * @return     JSX element  Images of the cards
+	 */
 	const displayCards = arr => {
 		return arr.map(
 			(card, i) => (
 				<Simg 
 				className="img-fluid" 
-				key={i} src={setCardFace(card)}
+				key={i} 
+				src={setCardFace(card)}
 				data-id={i} 
 				alt={'card of ' + card.name} 
-				onClick={toggleSelected} />
+				onClick={selectCard} />
 			)
 		)
 	}
 
-	const toggleSelected = e => {
+	/**
+	 * Choose the visible face of the card
+	 *
+	 * @param      object  card    The card
+	 * @return     string  address of the image
+	 */
+	const setCardFace = card => card.selected ? card.img : '/images/blank.png';
+	
+	const selectCard = e => {
 		const myCards = [ ...cards ];
 		myCards[e.target.dataset.id].selected = true;
 		setCards( myCards );
+		setSelectedCards( [...selectedCards, e.target.dataset.id] )
 	}
 
+	//Shuffle deck
+	const randomSortCards = arr => [ ...arr.sort(() => 0.5 - Math.random()) ]
+	
 	const [ cards, setCards ] = useState( randomSortCards(CARDS) );
 
+	const [ selectedCards, setSelectedCards ] = useState( [] );
+
+	useEffect(
+		() => {
+			//Leaves if only 1 card is selected
+			if ( selectedCards.length !== 2 ) return;
+
+			//leave if the cards are a match
+			if ( isMatch() ) {
+				setSelectedCards( [] );
+				return;
+			}
+
+			//If 2 card are selected and are not a match, flip them after 1s
+			setTimeout(
+				() => {
+					selectedCards.forEach( cardId => cards[cardId].selected = false )
+					setSelectedCards( [] );
+			    }, 1000
+		    )
+		}, [selectedCards]
+	)
+
+	const isMatch = () => cards[ selectedCards[0] ].name === cards[ selectedCards[1] ].name;
+	
 	return (
 		<div style={{maxWidth: '400px'}} className="my-4 mx-auto">
 			{displayCards(cards)}
