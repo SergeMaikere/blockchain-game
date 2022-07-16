@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import MemoryToken from '../abis/MemoryToken.json';
 import Navbar from './Navbar';
+import Game from './Game';
 
 
 const App = () => {
@@ -105,7 +106,13 @@ const App = () => {
     	<div className="App">
     		<Navbar account={account}/>
     		<div className="container-fluid">
-    			<p>{tokenURIS}</p>
+    			<div className="row">
+    				<div className="col-lg"></div>
+    				<div className="col-lg">
+    					<Game />
+    				</div>
+    				<div className="col-lg"></div>
+    			</div>
     		</div>
     	</div>
   	);
