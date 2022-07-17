@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { pipe, concat } from 'ramda';
 import styled from 'styled-components';
 
 const CARDS = [
@@ -65,6 +66,8 @@ const CARDS = [
 	}
 ];
 
+const VICTORY = '/images/victory.png';
+
 const Simg = styled.img`
 	max-width: 100px;
 	cursor: pointer;
@@ -72,7 +75,7 @@ const Simg = styled.img`
 ;	&:hover{ transform: scale(1.1); }
 `
 
-const Game = () => {
+const Game = props => {
 
 	/**
 	 * Returns an array of jsx elements
@@ -116,28 +119,63 @@ const Game = () => {
 
 	const [ selectedCards, setSelectedCards ] = useState( [] );
 
+	const [ hardWonCard, setHardWonCard ] = useState( [] );
+
 	useEffect(
 		() => {
+
+			const saveWonToken = async () => {
+				await props.token.methods
+				.mint(props.account, setURI( selectedCards[0] ))
+				.send( {from: props.account} )
+				.on(
+					'transactionHash', hash => {
+						const success = updateAllStates(selectedCards);
+						console.log(success);
+					}
+				)
+			}
+
 			//Leaves if only 1 card is selected
 			if ( selectedCards.length !== 2 ) return;
 
-			//leave if the cards are a match
-			if ( isMatch() ) {
-				setSelectedCards( [] );
-				return;
-			}
+			//If a match, save Token, if not a match, flip them after 1s
+			isMatch() ? saveWonToken() : setTimeout( () => handleWrongMatchup(selectedCards), 1000 );
 
-			//If 2 card are selected and are not a match, flip them after 1s
-			setTimeout(
-				() => {
-					selectedCards.forEach( cardId => cards[cardId].selected = false )
-					setSelectedCards( [] );
-			    }, 1000
-		    )
 		}, [selectedCards]
 	)
 
+	const showHiddenFace = arr => arr.forEach( id => cards[id].selected = false );
+
 	const isMatch = () => cards[ selectedCards[0] ].name === cards[ selectedCards[1] ].name;
+
+	const setURI = id => `${window.location.origin}${cards[ id].img}`;
+
+	const saveWonCardIds = arr => {
+		setHardWonCard(concat( hardWonCard, arr ));
+		return arr;
+	}
+
+	const displayWonToken = arr => {
+		props.displayNewToken( [...props.tokenURIs, cards[arr[0].img]] );
+		return arr;
+	}
+
+	const displayWonFace = arr => arr.forEach( id => cards[id].img = VICTORY );
+
+	const emptySelectedCards = arr => {
+		setSelectedCards( [] );
+		return 'New Token successfully saved';
+	}
+
+	const handleWrongMatchup = pipe( showHiddenFace, emptySelectedCards );
+	
+	const updateAllStates = pipe(
+		saveWonCardIds,
+		displayWonToken,
+		displayWonFace,
+		emptySelectedCards
+	);
 	
 	return (
 		<div style={{maxWidth: '400px'}} className="my-4 mx-auto">

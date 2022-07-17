@@ -20,7 +20,7 @@ const App = () => {
 	const [ account, setAccount ] = useState( '0x0' );
 	const [ token, setToken ] = useState( {} );
 	const [ totalSupply, setTotalSupply ] = useState( 0 );
-	const [ tokenURIS, setTokenURIS ] = useState( [] );
+	const [ tokenURIs, setTokenURIs ] = useState( [] );
 
 
 	/**
@@ -59,7 +59,7 @@ const App = () => {
 
 		//Get all tokens
 		const tokens = await getAllTokens(myContract, accounts);
-		setTokenURIS(tokens);
+		setTokenURIs(tokens);
 	}
 
 	/**
@@ -91,11 +91,11 @@ const App = () => {
 	 *
 	 * @return     {Array}  All tokenURIs.
 	 */
-	const getAllTokens = async(contract, owner) => {
-		const balance = await contract.methods.balanceOf(owner).call();
+	const getAllTokens = async (contract, owner) => {
+		const balance = await contract.methods.balanceOf(owner.toString()).call();
 		let tokens = [];
 		for (let i = 0; i < balance; i++) {
-			const id = await contract.methods.tokebOfOwnerByIndex(account, i).call();
+			const id = await contract.methods.tokenOfOwnerByIndex(owner, i).call();
 			const tokenURI = await contract.methods.tokenURI(id).call();
 			tokens.push(tokenURI);
 		}
@@ -109,7 +109,14 @@ const App = () => {
     			<div className="row">
     				<div className="col-lg"></div>
     				<div className="col-lg">
-    					<Game />
+
+    					<Game
+    					account={account}
+    					tokenURIs={tokenURIs}
+    					displayNewToken={setTokenURIs}
+    					token={token}
+    					totalSupply={totalSupply} />
+
     				</div>
     				<div className="col-lg"></div>
     			</div>
