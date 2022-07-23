@@ -123,7 +123,7 @@ const Game = props => {
 
 	useEffect(
 		() => {
-
+			
 			const saveWonToken = async () => {
 				await props.token.methods
 				.mint(props.account, setURI( selectedCards[0] ))
@@ -149,7 +149,7 @@ const Game = props => {
 
 	const isMatch = () => cards[ selectedCards[0] ].name === cards[ selectedCards[1] ].name;
 
-	const setURI = id => `${window.location.origin}${cards[ id].img}`;
+	const setURI = id => `${window.location.origin}${cards[id].img}`;
 
 	const saveWonCardIds = arr => {
 		setHardWonCard(concat( hardWonCard, arr ));
@@ -157,7 +157,7 @@ const Game = props => {
 	}
 
 	const displayWonToken = arr => {
-		props.displayNewToken( [...props.tokenURIs, cards[arr[0].img]] );
+		props.displayNewToken( [...props.tokenURIs, setURI(arr[0])] );
 		return arr;
 	}
 

@@ -3,6 +3,7 @@ import Web3 from 'web3';
 import MemoryToken from '../abis/MemoryToken.json';
 import Navbar from './Navbar';
 import Game from './Game';
+import Gallery from './Gallery';
 
 
 const App = () => {
@@ -107,18 +108,17 @@ const App = () => {
     		<Navbar account={account}/>
     		<div className="container-fluid">
     			<div className="row">
-    				<div className="col-lg"></div>
     				<div className="col-lg">
-
-    					<Game
-    					account={account}
-    					tokenURIs={tokenURIs}
-    					displayNewToken={setTokenURIs}
-    					token={token}
-    					totalSupply={totalSupply} />
-
+						<Game
+						account={account}
+						tokenURIs={tokenURIs}
+						displayNewToken={setTokenURIs}
+						token={token}
+						totalSupply={totalSupply} />
+					</div>
+    				<div className="col-lg">
+	    				<Gallery tokenURIs={tokenURIs} />
     				</div>
-    				<div className="col-lg"></div>
     			</div>
     		</div>
     	</div>
