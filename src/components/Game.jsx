@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { pipe, concat } from 'ramda';
 import styled from 'styled-components';
+import { Colors, SGameContainer, SImg, STitle } from '../utils/style';
 
 const CARDS = [
 
@@ -68,12 +69,6 @@ const CARDS = [
 
 const VICTORY = '/images/victory.png';
 
-const Simg = styled.img`
-	max-width: 100px;
-	cursor: pointer;
-	transition: all .2s ease-in-out;
-;	&:hover{ transform: scale(1.1); }
-`
 
 const Game = props => {
 
@@ -86,8 +81,7 @@ const Game = props => {
 	const displayCards = arr => {
 		return arr.map(
 			(card, i) => (
-				<Simg 
-				className="img-fluid" 
+				<SImg 
 				key={i} 
 				src={setCardFace(card)}
 				data-id={i} 
@@ -178,9 +172,10 @@ const Game = props => {
 	);
 	
 	return (
-		<div style={{maxWidth: '400px'}} className="my-4 mx-auto">
+		<SGameContainer className="mx-auto">
+			<STitle className="text-center mb-5">Challenge Your Memory</STitle>
 			{displayCards(cards)}
-		</div>
+		</SGameContainer>
 	)
 }
 
