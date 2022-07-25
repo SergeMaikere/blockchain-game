@@ -1,17 +1,21 @@
 import React from 'react';
+import { SGallery, STitle } from '../utils/style';
 
 const Gallery = (props) => {
 
 	const displayWonTokens = () => {
 		return props.tokenURIs.map( 
 			(tokenURI, i) => (
-				<img key={i} style={{maxWidth: '90px'}} src={tokenURI} alt="token won" className="img-thumbnails" />
+				<img key={i} style={{maxWidth: '90px'}} src={tokenURI} alt="token won" className="img-fluid" />
 			) 
 		);
 	}
 
 	return (
-		<div style={{maxWidth: '600px'}} className="my-4 mx-auto">{displayWonTokens()}</div>
+		<div className="mt-5 mx-auto">
+			<STitle className="text-center mb-5">Wall of Victory</STitle>
+			<SGallery>{displayWonTokens()}</SGallery>
+		</div>
 	);
 }
 

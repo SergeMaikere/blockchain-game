@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { pipe, concat } from 'ramda';
-import styled from 'styled-components';
+import { SGameContainer, SImg, STitle } from '../utils/style';
 
 const CARDS = [
 
 	{
 		name: 'fries',
-		img: '/images/fries.jpg',
+		img: '/images/fries.png',
 		selected: false
 	},
 	{
@@ -16,12 +16,12 @@ const CARDS = [
 	},
 	{
 		name: 'hot-dog',
-		img: '/images/hot-dog.jpg',
+		img: '/images/hot-dog.png',
 		selected: false
 	},
 	{
 		name: 'ice-cream',
-		img: '/images/ice-cream.jpg',
+		img: '/images/ice-cream.png',
 		selected: false
 	},
 	{
@@ -31,12 +31,12 @@ const CARDS = [
 	},
 	{
 		name: 'pizza',
-		img: '/images/pizza.jpg',
+		img: '/images/pizza.png',
 		selected: false
 	},
 	{
 		name: 'fries',
-		img: '/images/fries.jpg',
+		img: '/images/fries.png',
 		selected: false
 	},
 	{
@@ -46,12 +46,12 @@ const CARDS = [
 	},
 	{
 		name: 'hot-dog',
-		img: '/images/hot-dog.jpg',
+		img: '/images/hot-dog.png',
 		selected: false
 	},
 	{
 		name: 'ice-cream',
-		img: '/images/ice-cream.jpg',
+		img: '/images/ice-cream.png',
 		selected: false
 	},
 	{
@@ -61,19 +61,13 @@ const CARDS = [
 	},
 	{
 		name: 'pizza',
-		img: '/images/pizza.jpg',
+		img: '/images/pizza.png',
 		selected: false
 	}
 ];
 
-const VICTORY = '/images/victory.png';
+const VICTORY = '/images/steve.png';
 
-const Simg = styled.img`
-	max-width: 100px;
-	cursor: pointer;
-	transition: all .2s ease-in-out;
-;	&:hover{ transform: scale(1.1); }
-`
 
 const Game = props => {
 
@@ -86,8 +80,7 @@ const Game = props => {
 	const displayCards = arr => {
 		return arr.map(
 			(card, i) => (
-				<Simg 
-				className="img-fluid" 
+				<SImg 
 				key={i} 
 				src={setCardFace(card)}
 				data-id={i} 
@@ -178,9 +171,10 @@ const Game = props => {
 	);
 	
 	return (
-		<div style={{maxWidth: '400px'}} className="my-4 mx-auto">
+		<SGameContainer className="mx-auto">
+			<STitle className="text-center mb-5">Challenge Your Memory</STitle>
 			{displayCards(cards)}
-		</div>
+		</SGameContainer>
 	)
 }
 

@@ -4,6 +4,8 @@ import MemoryToken from '../abis/MemoryToken.json';
 import Navbar from './Navbar';
 import Game from './Game';
 import Gallery from './Gallery';
+import CallToAction from './CallToAction';
+import { GlobalStyle, SBigTitle, SCard } from '../utils/style';
 
 
 const App = () => {
@@ -105,10 +107,20 @@ const App = () => {
 
   	return (
     	<div className="App">
-    		<Navbar account={account}/>
+    		<GlobalStyle />
+    		{/*<Navbar account={account}/>*/}
     		<div className="container-fluid">
+    			<SBigTitle className="text-center py-5">
+    				INSANE <span style={{color: '#4e4fa5'}}>IN</span> THE <span style={{color: '#f1b74f'}}>BRAINCHAIN</span>
+    			</SBigTitle>
+    			
     			<div className="row">
-    				<div className="col-lg">
+
+    				<div className="col-lg-6">
+    					<CallToAction />
+    				</div>
+
+    				<div className="col-lg-6">
 						<Game
 						account={account}
 						tokenURIs={tokenURIs}
@@ -116,10 +128,20 @@ const App = () => {
 						token={token}
 						totalSupply={totalSupply} />
 					</div>
-    				<div className="col-lg">
-	    				<Gallery tokenURIs={tokenURIs} />
+
+    			</div>
+    			
+    			<div className="row">
+    				<div className="col-lg-6">
+    					<Gallery tokenURIs={tokenURIs} />
+    				</div>
+    				<div className="col-lg-6">
+    					<SCard className="card border-light mb-5 text-center">
+    						<img className="img-fluid" src="/images/puzzle-face.png" alt="sitting robot" />
+    					</SCard>
     				</div>
     			</div>
+
     		</div>
     	</div>
   	);
