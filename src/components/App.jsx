@@ -5,7 +5,7 @@ import Navbar from './Navbar';
 import Game from './Game';
 import Gallery from './Gallery';
 import CallToAction from './CallToAction';
-import { GlobalStyle, SBigTitle, STitle, SCard } from '../utils/style';
+import { GlobalStyle, SBigTitle, SCard } from '../utils/style';
 
 
 const App = () => {
@@ -133,13 +133,12 @@ const App = () => {
     			
     			<div className="row">
     				<div className="col-lg-6">
-    					<STitle className="text-center mb-5">Wall of Victory</STitle>
     					<Gallery tokenURIs={tokenURIs} />
     				</div>
     				<div className="col-lg-6">
-    					<div className="card">
-    						<img src="/images/allez-viens.jpeg" alt="sittitng robot" className="img-card-top" />
-    					</div>
+    					<SCard className="card border-light mb-5 text-center">
+    						<img className="img-fluid" src="/images/puzzle-face.png" alt="sitting robot" />
+    					</SCard>
     				</div>
     			</div>
 

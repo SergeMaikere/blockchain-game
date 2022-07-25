@@ -37,6 +37,7 @@ const SBigTitle = styled.h1`
 `
 
 const STitle = styled.h2`
+	font-family: babaprobold;
 	text-decoration: underline ${Colors.triaton} solid;
 `;
 
@@ -58,6 +59,7 @@ const SGameContainer = styled.div`
 `;
 
 const SGallery = styled.div`
+	margin-top: 60px;
 	max-width: 600px;
 	display: flex;
 	flex-wrap: wrap;
@@ -65,10 +67,7 @@ const SGallery = styled.div`
 `;
 
 const SCard = styled.div`
-	background-color: transparent;
-	&.card-body {
-		background-color: ${Colors.triaton};
-	}
+	background-color: transparent !important;
 `;
 
 const SButton = styled.button`

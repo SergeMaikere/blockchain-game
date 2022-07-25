@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { pipe, concat } from 'ramda';
-import styled from 'styled-components';
-import { Colors, SGameContainer, SImg, STitle } from '../utils/style';
+import { SGameContainer, SImg, STitle } from '../utils/style';
 
 const CARDS = [
 
 	{
 		name: 'fries',
-		img: '/images/fries.jpg',
+		img: '/images/fries.png',
 		selected: false
 	},
 	{
@@ -17,12 +16,12 @@ const CARDS = [
 	},
 	{
 		name: 'hot-dog',
-		img: '/images/hot-dog.jpg',
+		img: '/images/hot-dog.png',
 		selected: false
 	},
 	{
 		name: 'ice-cream',
-		img: '/images/ice-cream.jpg',
+		img: '/images/ice-cream.png',
 		selected: false
 	},
 	{
@@ -32,12 +31,12 @@ const CARDS = [
 	},
 	{
 		name: 'pizza',
-		img: '/images/pizza.jpg',
+		img: '/images/pizza.png',
 		selected: false
 	},
 	{
 		name: 'fries',
-		img: '/images/fries.jpg',
+		img: '/images/fries.png',
 		selected: false
 	},
 	{
@@ -47,12 +46,12 @@ const CARDS = [
 	},
 	{
 		name: 'hot-dog',
-		img: '/images/hot-dog.jpg',
+		img: '/images/hot-dog.png',
 		selected: false
 	},
 	{
 		name: 'ice-cream',
-		img: '/images/ice-cream.jpg',
+		img: '/images/ice-cream.png',
 		selected: false
 	},
 	{
@@ -62,12 +61,12 @@ const CARDS = [
 	},
 	{
 		name: 'pizza',
-		img: '/images/pizza.jpg',
+		img: '/images/pizza.png',
 		selected: false
 	}
 ];
 
-const VICTORY = '/images/victory.png';
+const VICTORY = '/images/steve.png';
 
 
 const Game = props => {
