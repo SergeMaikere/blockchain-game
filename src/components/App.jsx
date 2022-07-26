@@ -22,7 +22,6 @@ const App = () => {
 
 	const [ account, setAccount ] = useState( '0x0' );
 	const [ token, setToken ] = useState( {} );
-	const [ totalSupply, setTotalSupply ] = useState( 0 );
 	const [ tokenURIs, setTokenURIs ] = useState( [] );
 
 
@@ -55,10 +54,6 @@ const App = () => {
 		const currentAddress = await getCurrentAddress(web3);
 		const myContract = await new web3.eth.Contract(MemoryToken.abi, currentAddress);
 		setToken(myContract);
-
-		//Get totalSupply
-		const supply = await myContract.methods.totalSupply().call();
-		setTotalSupply(supply);
 
 		//Get all tokens
 		const tokens = await getAllTokens(myContract, accounts);
@@ -125,8 +120,7 @@ const App = () => {
 						account={account}
 						tokenURIs={tokenURIs}
 						displayNewToken={setTokenURIs}
-						token={token}
-						totalSupply={totalSupply} />
+						token={token} />
 					</div>
 
     			</div>
