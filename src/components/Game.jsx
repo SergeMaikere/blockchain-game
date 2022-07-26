@@ -68,6 +68,7 @@ const CARDS = [
 
 const VICTORY = '/images/steve.png';
 
+const SIMILAR_CARD_NUM = 2;
 
 const Game = props => {
 
@@ -99,11 +100,15 @@ const Game = props => {
 	const setCardFace = card => card.selected ? card.img : '/images/blank.png';
 	
 	const selectCard = e => {
+		if ( isSelectedCardFull() ) return;
 		const myCards = [ ...cards ];
 		myCards[e.target.dataset.id].selected = true;
 		setCards( myCards );
 		setSelectedCards( [...selectedCards, e.target.dataset.id] )
 	}
+
+	//Check no more than appropriate number of cards are selected
+	const isSelectedCardFull = () => selectedCards.length == SIMILAR_CARD_NUM;
 
 	//Shuffle deck
 	const randomSortCards = arr => [ ...arr.sort(() => 0.5 - Math.random()) ]
@@ -130,7 +135,7 @@ const Game = props => {
 			}
 
 			//Leaves if only 1 card is selected
-			if ( selectedCards.length !== 2 ) return;
+			if ( selectedCards.length < SIMILAR_CARD_NUM ) return;
 
 			//If a match, save Token, if not a match, flip them after 1s
 			isMatch() ? saveWonToken() : setTimeout( () => handleWrongMatchup(selectedCards), 1000 );
@@ -138,10 +143,11 @@ const Game = props => {
 		}, [selectedCards]
 	)
 
-	const showHiddenFace = arr => arr.forEach( id => cards[id].selected = false );
+	const showBlankFace = arr => arr.forEach( id => cards[id].selected = false );
 
-	const isMatch = () => cards[ selectedCards[0] ].name === cards[ selectedCards[1] ].name;
+	const isMatch = () => selectedCards.every( id => cards[ selectedCards[0] ].name === cards[ id ].name );
 
+	//Set Token path correctly
 	const setURI = id => `${window.location.origin}${cards[id].img}`;
 
 	const saveWonCardIds = arr => {
@@ -154,14 +160,15 @@ const Game = props => {
 		return arr;
 	}
 
+	//Show victory card in place of matched cards
 	const displayWonFace = arr => arr.forEach( id => cards[id].img = VICTORY );
 
 	const emptySelectedCards = arr => {
 		setSelectedCards( [] );
 		return 'New Token successfully saved';
 	}
-
-	const handleWrongMatchup = pipe( showHiddenFace, emptySelectedCards );
+	
+	const handleWrongMatchup = pipe( showBlankFace, emptySelectedCards );
 	
 	const updateAllStates = pipe(
 		saveWonCardIds,

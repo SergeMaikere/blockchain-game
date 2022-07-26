@@ -59,8 +59,8 @@ const SGameContainer = styled.div`
 `;
 
 const SGallery = styled.div`
+	max-width: 600px !important;
 	margin-top: 60px;
-	max-width: 600px;
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;

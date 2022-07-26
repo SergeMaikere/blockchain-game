@@ -12,9 +12,9 @@ const Gallery = (props) => {
 	}
 
 	return (
-		<div className="mt-5 mx-auto">
+		<div className="my-5">
 			<STitle className="text-center mb-5">Wall of Victory</STitle>
-			<SGallery>{displayWonTokens()}</SGallery>
+			<SGallery className="mx-auto">{displayWonTokens()}</SGallery>
 		</div>
 	);
 }
