@@ -108,7 +108,7 @@ const Game = props => {
 	}
 
 	//Check no more than appropriate number of cards are selected
-	const isSelectedCardFull = () => selectedCards.length == SIMILAR_CARD_NUM;
+	const isSelectedCardFull = () => selectedCards.length === SIMILAR_CARD_NUM;
 
 	//Shuffle deck
 	const randomSortCards = arr => [ ...arr.sort(() => 0.5 - Math.random()) ]
@@ -119,6 +119,7 @@ const Game = props => {
 
 	const [ hardWonCard, setHardWonCard ] = useState( [] );
 
+	//Goes into effect each time selectedCards changes
 	useEffect(
 		() => {
 			
@@ -134,7 +135,7 @@ const Game = props => {
 				)
 			}
 
-			//Leaves if only 1 card is selected
+			//Leaves if not all required card are selected
 			if ( selectedCards.length < SIMILAR_CARD_NUM ) return;
 
 			//If a match, save Token, if not a match, flip them after 1s
