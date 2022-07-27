@@ -1,70 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { pipe, concat } from 'ramda';
+import { getCARDS } from '../utils/helper';
 import { SGameContainer, SImg, STitle } from '../utils/style';
 
-const CARDS = [
-
-	{
-		name: 'fries',
-		img: '/images/fries.png',
-		selected: false
-	},
-	{
-		name: 'cheeseburger',
-		img: '/images/cheeseburger.png',
-		selected: false
-	},
-	{
-		name: 'hot-dog',
-		img: '/images/hot-dog.png',
-		selected: false
-	},
-	{
-		name: 'ice-cream',
-		img: '/images/ice-cream.png',
-		selected: false
-	},
-	{
-		name: 'milkshake',
-		img: '/images/milkshake.png',
-		selected: false
-	},
-	{
-		name: 'pizza',
-		img: '/images/pizza.png',
-		selected: false
-	},
-	{
-		name: 'fries',
-		img: '/images/fries.png',
-		selected: false
-	},
-	{
-		name: 'cheeseburger',
-		img: '/images/cheeseburger.png',
-		selected: false
-	},
-	{
-		name: 'hot-dog',
-		img: '/images/hot-dog.png',
-		selected: false
-	},
-	{
-		name: 'ice-cream',
-		img: '/images/ice-cream.png',
-		selected: false
-	},
-	{
-		name: 'milkshake',
-		img: '/images/milkshake.png',
-		selected: false
-	},
-	{
-		name: 'pizza',
-		img: '/images/pizza.png',
-		selected: false
-	}
-];
 
 const VICTORY = '/images/steve.png';
 
@@ -113,7 +51,7 @@ const Game = props => {
 	//Shuffle deck
 	const randomSortCards = arr => [ ...arr.sort(() => 0.5 - Math.random()) ]
 	
-	const [ cards, setCards ] = useState( randomSortCards(CARDS) );
+	const [ cards, setCards ] = useState( randomSortCards(getCARDS(SIMILAR_CARD_NUM)) );
 
 	const [ selectedCards, setSelectedCards ] = useState( [] );
 
@@ -123,6 +61,8 @@ const Game = props => {
 	useEffect(
 		() => {
 			
+			console.log(cards);
+			console.log(selectedCards);
 			const saveWonToken = async () => {
 				await props.token.methods
 				.mint(props.account, setURI( selectedCards[0] ))
