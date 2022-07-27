@@ -1,3 +1,5 @@
+import { concat } from 'ramda'; 
+
 const CARDS = [
 
 	{
@@ -32,11 +34,11 @@ const CARDS = [
 	}
 ];
 
-export const getCARDS = ( level = 2 ) => {
+export const getCARDS = level => {
 	let myCards = [];
 
 	for (let i = 0; i < level; i++) {
-		myCards = [ ...myCards, ...CARDS ];
+		myCards = myCards.concat( [...CARDS].map(card => ({...card})) );
 	}
 	return myCards;
 }

@@ -6,8 +6,6 @@ import { SGameContainer, SImg, STitle } from '../utils/style';
 
 const VICTORY = '/images/steve.png';
 
-const SIMILAR_CARD_NUM = 2;
-
 const Game = props => {
 
 	/**
@@ -46,12 +44,14 @@ const Game = props => {
 	}
 
 	//Check no more than appropriate number of cards are selected
-	const isSelectedCardFull = () => selectedCards.length === SIMILAR_CARD_NUM;
+	const isSelectedCardFull = () => selectedCards.length === numToMatch;
 
 	//Shuffle deck
 	const randomSortCards = arr => [ ...arr.sort(() => 0.5 - Math.random()) ]
+
+	const [ numToMatch, setNumToMatch ] = useState( 2 )
 	
-	const [ cards, setCards ] = useState( randomSortCards(getCARDS(SIMILAR_CARD_NUM)) );
+	const [ cards, setCards ] = useState( randomSortCards(getCARDS(numToMatch)) );
 
 	const [ selectedCards, setSelectedCards ] = useState( [] );
 
@@ -61,8 +61,6 @@ const Game = props => {
 	useEffect(
 		() => {
 			
-			console.log(cards);
-			console.log(selectedCards);
 			const saveWonToken = async () => {
 				await props.token.methods
 				.mint(props.account, setURI( selectedCards[0] ))
@@ -76,7 +74,7 @@ const Game = props => {
 			}
 
 			//Leaves if not all required card are selected
-			if ( selectedCards.length < SIMILAR_CARD_NUM ) return;
+			if ( selectedCards.length < numToMatch ) return;
 
 			//If a match, save Token, if not a match, flip them after 1s
 			isMatch() ? saveWonToken() : setTimeout( () => handleWrongMatchup(selectedCards), 1000 );
