@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { pipe, concat } from 'ramda';
 import { getCARDS } from '../utils/helper';
-import { SGameContainer, SImg, STitle } from '../utils/style';
+import { SGameContainer, SCardsContainer, SImg, STitle } from '../utils/style';
+import SelectLevel from './SelectLevel';
 
 
 const VICTORY = '/images/steve.png';
@@ -47,11 +48,11 @@ const Game = props => {
 	const isSelectedCardFull = () => selectedCards.length === numToMatch;
 
 	//Shuffle deck
-	const randomSortCards = arr => [ ...arr.sort(() => 0.5 - Math.random()) ]
+	const randomSortCards = arr => [ ...arr.sort(() => 0.5 - Math.random()) ];
 
-	const [ numToMatch, setNumToMatch ] = useState( 2 )
+	const [ numToMatch, setNumToMatch ] = useState( 2 );
 	
-	const [ cards, setCards ] = useState( randomSortCards(getCARDS(numToMatch)) );
+	const [ cards, setCards ] = useState( randomSortCards(getCARDS()) );
 
 	const [ selectedCards, setSelectedCards ] = useState( [] );
 
@@ -115,11 +116,19 @@ const Game = props => {
 		displayWonFace,
 		emptySelectedCards
 	);
+
+	const changeLevel = level => {
+		setNumToMatch( level );
+		setCards( randomSortCards(getCARDS(level)) );
+	}
 	
 	return (
-		<SGameContainer className="mx-auto">
-			<STitle className="text-center mb-5">Challenge Your Memory</STitle>
-			{displayCards(cards)}
+		<SGameContainer>
+			<SCardsContainer className="mx-auto">
+				<STitle className="text-center mb-1">Challenge Your Memory</STitle>
+				{displayCards(cards)}
+			</SCardsContainer>
+			<SelectLevel level={numToMatch} changeLevel={changeLevel} />
 		</SGameContainer>
 	)
 }

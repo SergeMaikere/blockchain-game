@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import MemoryToken from '../abis/MemoryToken.json';
-import Navbar from './Navbar';
 import Game from './Game';
 import Gallery from './Gallery';
 import CallToAction from './CallToAction';

@@ -1,5 +1,3 @@
-import { concat } from 'ramda'; 
-
 const CARDS = [
 
 	{
@@ -34,7 +32,7 @@ const CARDS = [
 	}
 ];
 
-export const getCARDS = level => {
+export const getCARDS = (level = 2) => {
 	let myCards = [];
 
 	for (let i = 0; i < level; i++) {
