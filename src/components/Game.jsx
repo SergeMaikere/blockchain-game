@@ -9,6 +9,17 @@ const VICTORY = '/images/steve.png';
 
 const Game = props => {
 
+	//Shuffle deck
+	const randomSortCards = arr => [ ...arr.sort(() => 0.5 - Math.random()) ];
+
+	const [ numToMatch, setNumToMatch ] = useState( 2 );
+	
+	const [ cards, setCards ] = useState( randomSortCards(getCARDS()) );
+
+	const [ selectedCards, setSelectedCards ] = useState( [] );
+
+	const [ hardWonCard, setHardWonCard ] = useState( [] );
+
 	/**
 	 * Returns an array of jsx elements
 	 *
@@ -46,17 +57,6 @@ const Game = props => {
 
 	//Check no more than appropriate number of cards are selected
 	const isSelectedCardFull = () => selectedCards.length === numToMatch;
-
-	//Shuffle deck
-	const randomSortCards = arr => [ ...arr.sort(() => 0.5 - Math.random()) ];
-
-	const [ numToMatch, setNumToMatch ] = useState( 2 );
-	
-	const [ cards, setCards ] = useState( randomSortCards(getCARDS()) );
-
-	const [ selectedCards, setSelectedCards ] = useState( [] );
-
-	const [ hardWonCard, setHardWonCard ] = useState( [] );
 
 	//Goes into effect each time selectedCards changes
 	useEffect(

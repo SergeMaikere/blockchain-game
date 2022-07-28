@@ -3,7 +3,7 @@ import { SButtonLevel } from '../utils/style';
 
 const SelectLevel = props => {
 
-	const handleClick = e => props.changeLevel( e.target.dataset.diff );
+	const handleClick = e => props.changeLevel( Number(e.target.dataset.diff) );
 
 	const baaasicRef = useRef();
 
