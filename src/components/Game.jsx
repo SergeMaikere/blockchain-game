@@ -4,9 +4,6 @@ import { getCARDS } from '../utils/helper';
 import { SGameContainer, SCardsContainer, SImg, STitle } from '../utils/style';
 import SelectLevel from './SelectLevel';
 
-
-const VICTORY = '/images/steve.png';
-
 const Game = props => {
 
 	//Shuffle deck
@@ -78,7 +75,7 @@ const Game = props => {
 			if ( selectedCards.length < numToMatch ) return;
 
 			//If a match, save Token, if not a match, flip them after 1s
-			isMatch() ? saveWonToken() : setTimeout( () => handleWrongMatchup(selectedCards), 1000 );
+			isMatch() ? saveWonToken() : setTimeout( () => handleWrongMatchup(selectedCards), 900 );
 
 		}, [selectedCards]
 	)
@@ -101,7 +98,13 @@ const Game = props => {
 	}
 
 	//Show victory card in place of matched cards
-	const displayWonFace = arr => arr.forEach( id => cards[id].img = VICTORY );
+	const displayWonFace = arr => arr.forEach( id => cards[id].img = setVictoryCard() );
+
+	const setVictoryCard = () => {
+		if (numToMatch === 2) return '/images/doge.png';
+		if (numToMatch === 3) return '/images/dragon-ball.png';
+		if (numToMatch === 4) return '/images/steve.png';
+	}
 
 	const emptySelectedCards = arr => {
 		setSelectedCards( [] );
