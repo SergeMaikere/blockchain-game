@@ -1,74 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { pipe, concat } from 'ramda';
-import { SGameContainer, SImg, STitle } from '../utils/style';
+import { getCARDS } from '../utils/helper';
+import { SGameContainer, SCardsContainer, SImg, STitle } from '../utils/style';
+import SelectLevel from './SelectLevel';
 
-const CARDS = [
-
-	{
-		name: 'fries',
-		img: '/images/fries.png',
-		selected: false
-	},
-	{
-		name: 'cheeseburger',
-		img: '/images/cheeseburger.png',
-		selected: false
-	},
-	{
-		name: 'hot-dog',
-		img: '/images/hot-dog.png',
-		selected: false
-	},
-	{
-		name: 'ice-cream',
-		img: '/images/ice-cream.png',
-		selected: false
-	},
-	{
-		name: 'milkshake',
-		img: '/images/milkshake.png',
-		selected: false
-	},
-	{
-		name: 'pizza',
-		img: '/images/pizza.png',
-		selected: false
-	},
-	{
-		name: 'fries',
-		img: '/images/fries.png',
-		selected: false
-	},
-	{
-		name: 'cheeseburger',
-		img: '/images/cheeseburger.png',
-		selected: false
-	},
-	{
-		name: 'hot-dog',
-		img: '/images/hot-dog.png',
-		selected: false
-	},
-	{
-		name: 'ice-cream',
-		img: '/images/ice-cream.png',
-		selected: false
-	},
-	{
-		name: 'milkshake',
-		img: '/images/milkshake.png',
-		selected: false
-	},
-	{
-		name: 'pizza',
-		img: '/images/pizza.png',
-		selected: false
-	}
-];
 
 const VICTORY = '/images/steve.png';
-
-const SIMILAR_CARD_NUM = 2;
 
 const Game = props => {
 
@@ -108,12 +45,14 @@ const Game = props => {
 	}
 
 	//Check no more than appropriate number of cards are selected
-	const isSelectedCardFull = () => selectedCards.length === SIMILAR_CARD_NUM;
+	const isSelectedCardFull = () => selectedCards.length === numToMatch;
 
 	//Shuffle deck
-	const randomSortCards = arr => [ ...arr.sort(() => 0.5 - Math.random()) ]
+	const randomSortCards = arr => [ ...arr.sort(() => 0.5 - Math.random()) ];
+
+	const [ numToMatch, setNumToMatch ] = useState( 2 );
 	
-	const [ cards, setCards ] = useState( randomSortCards(CARDS) );
+	const [ cards, setCards ] = useState( randomSortCards(getCARDS()) );
 
 	const [ selectedCards, setSelectedCards ] = useState( [] );
 
@@ -136,7 +75,7 @@ const Game = props => {
 			}
 
 			//Leaves if not all required card are selected
-			if ( selectedCards.length < SIMILAR_CARD_NUM ) return;
+			if ( selectedCards.length < numToMatch ) return;
 
 			//If a match, save Token, if not a match, flip them after 1s
 			isMatch() ? saveWonToken() : setTimeout( () => handleWrongMatchup(selectedCards), 1000 );
@@ -177,11 +116,19 @@ const Game = props => {
 		displayWonFace,
 		emptySelectedCards
 	);
+
+	const changeLevel = level => {
+		setNumToMatch( level );
+		setCards( randomSortCards(getCARDS(level)) );
+	}
 	
 	return (
-		<SGameContainer className="mx-auto">
-			<STitle className="text-center mb-5">Challenge Your Memory</STitle>
-			{displayCards(cards)}
+		<SGameContainer>
+			<SCardsContainer className="mx-auto">
+				<STitle className="text-center mb-1">Challenge Your Memory</STitle>
+				{displayCards(cards)}
+			</SCardsContainer>
+			<SelectLevel level={numToMatch} changeLevel={changeLevel} />
 		</SGameContainer>
 	)
 }

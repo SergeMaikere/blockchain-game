@@ -1,5 +1,5 @@
 import React from 'react';
-import { SGallery, STitle, Colors } from '../utils/style';
+import { SGallery, STitle } from '../utils/style';
 
 const Gallery = (props) => {
 
