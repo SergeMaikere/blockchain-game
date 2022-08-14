@@ -44,11 +44,12 @@ const Game = props => {
 	 */
 	const setCardFace = card => card.selected ? card.img : '/images/blank.png';
 	
+	// On click of the cards
 	const selectCard = e => {
-		if ( isSelectedCardFull() ) return;
+		if ( isSelectedCardFull() ) return; 			
 		const myCards = [ ...cards ];
 		myCards[e.target.dataset.id].selected = true;
-		setCards( myCards );
+		setCards( myCards ); 							
 		setSelectedCards( [...selectedCards, e.target.dataset.id] )
 	}
 
@@ -74,7 +75,7 @@ const Game = props => {
 			//Leaves if not all required card are selected
 			if ( selectedCards.length < numToMatch ) return;
 
-			//If a match, save Token, if not a match, flip them after 1s
+			//If a match, save Token, if not a match, flip them after 900ms
 			isMatch() ? saveWonToken() : setTimeout( () => handleWrongMatchup(selectedCards), 900 );
 
 		}, [selectedCards]
@@ -82,7 +83,13 @@ const Game = props => {
 
 	const isMatch = () => selectedCards.every( id => cards[ selectedCards[0] ].name === cards[ id ].name );
 	
-	const showBlankFace = arr => arr.forEach( id => cards[id].selected = false );
+	const showBlankFace = arr => arr.forEach( 
+		id => {
+			let newCards = [ ...cards ];
+			newCards[id].selected = false;
+			setCards( newCards ); 
+		}
+	);
 	
 	const emptySelectedCards = arr => {
 		setSelectedCards( [] );
