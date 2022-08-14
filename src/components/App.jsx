@@ -114,14 +114,13 @@ const App = () => {
     					<CallToAction />
     				</div>
 
-    				<div className="col-lg-6">
+    				<div className="col-lg-6 text-center">
 						<Game
 						account={account}
 						tokenURIs={tokenURIs}
 						displayNewToken={setTokenURIs}
 						token={token} />
 					</div>
-
     			</div>
     			
     			<div className="row">

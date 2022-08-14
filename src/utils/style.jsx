@@ -27,6 +27,15 @@ const GlobalStyle = createGlobalStyle`
 	  	margin: 0px;
 	  	height: 10vh;
 	  	background-color: ${Colors.quadrature};
+	  	scroll-behavior: smooth;
+	}
+
+	@media only screen and (max-width: 768px) {
+		* { 
+			margin: 0px !important;
+			padding: 0px !important;
+			width: fit-content;
+		}
 	}
 `;
 
@@ -48,11 +57,6 @@ const SImg = styled.img`
 	&:hover{ transform: scale(1.1); }
 `;
 
-const SGameContainer = styled.div`
-	padding-top: 300px;
-	display: flex;
-	flex-direction: row;
-`;
 
 const SCardsContainer = styled.div`
 	display: flex;
@@ -60,6 +64,10 @@ const SCardsContainer = styled.div`
 	justify-content: center;
 	max-width: 500px;
 	padding: 30px;
+`;
+
+const SGalleryContainer = styled.div`
+	margin-top: 150px;
 `;
 
 const SGallery = styled.div`
@@ -97,7 +105,7 @@ export {
 	SBigTitle, 
 	STitle, 
 	SCardsContainer,
-	SGameContainer,
+	SGalleryContainer,
 	SImg, 
 	SGallery, 
 	SButton,

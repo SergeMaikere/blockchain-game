@@ -1,9 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { SButtonLevel } from '../utils/style';
 
+
 const SelectLevel = props => {
 
-	const handleClick = e => props.changeLevel( Number(e.target.dataset.diff) );
+	const handleClick = e => {
+		props.changeLevel( Number(e.target.dataset.diff) );
+		props.scrollTo.current.scrollIntoView( {behavior: 'smooth'} );
+	}
 
 	const baaasicRef = useRef();
 

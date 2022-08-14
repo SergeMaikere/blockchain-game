@@ -12,7 +12,9 @@ const CallToAction = props => {
 				Numquam ea iusto explicabo accusantium qui architecto aspernatur 
 				veniam ducimus quo voluptatibus, minima quaerat repudiandae, dolores 
 				fuga id similique suscipit eum dolorum.</p>
-				<SButton className="btn btn-lg" type="button">START</SButton>
+				<a href="#game">
+					<SButton className="btn btn-lg" type="button">START</SButton>
+				</a>
 			</div>
 		</SCard>
 	)
