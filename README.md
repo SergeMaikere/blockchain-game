@@ -2,10 +2,10 @@
 
 You can win tokens by challenging your memory
 
-**Most notable in STack**
--React
--Web3
--Truffle
+**STack**
+- React
+- Web3
+- Solidity
 
 *Project was coded with Metamask in mind*
 
