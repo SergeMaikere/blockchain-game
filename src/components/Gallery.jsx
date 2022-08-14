@@ -1,5 +1,5 @@
 import React from 'react';
-import { SGallery, STitle } from '../utils/style';
+import { SGalleryContainer, SGallery, STitle } from '../utils/style';
 
 const Gallery = (props) => {
 
@@ -12,10 +12,10 @@ const Gallery = (props) => {
 	}
 
 	return (
-		<div className="text-center my-5">
-			<STitle className="mb-5">Wall of Victory</STitle>
+		<SGalleryContainer className="text-center">
+			<STitle className="mb-4">Wall of Victory</STitle>
 			<SGallery className="mx-auto">{displayWonTokens()}</SGallery>
-		</div>
+		</SGalleryContainer>
 	);
 }
 

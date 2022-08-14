@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { pipe, concat } from 'ramda';
 import { getCARDS } from '../utils/helper';
-import { SGameContainer, SCardsContainer, SImg, STitle } from '../utils/style';
+import { SCardsContainer, SImg, STitle } from '../utils/style';
 import SelectLevel from './SelectLevel';
 
 const Game = props => {
@@ -80,9 +80,16 @@ const Game = props => {
 		}, [selectedCards]
 	)
 
-	const showBlankFace = arr => arr.forEach( id => cards[id].selected = false );
-
 	const isMatch = () => selectedCards.every( id => cards[ selectedCards[0] ].name === cards[ id ].name );
+	
+	const showBlankFace = arr => arr.forEach( id => cards[id].selected = false );
+	
+	const emptySelectedCards = arr => {
+		setSelectedCards( [] );
+		return 'New Token successfully saved';
+	}
+	
+	const handleWrongMatchup = pipe( showBlankFace, emptySelectedCards );
 
 	//Set Token path correctly
 	const setURI = id => `${window.location.origin}${cards[id].img}`;
@@ -100,19 +107,6 @@ const Game = props => {
 	//Show victory card in place of matched cards
 	const displayWonFace = arr => arr.forEach( id => cards[id].img = setVictoryCard() );
 
-	const setVictoryCard = () => {
-		if (numToMatch === 2) return '/images/doge.png';
-		if (numToMatch === 3) return '/images/dragon-ball.png';
-		if (numToMatch === 4) return '/images/steve.png';
-	}
-
-	const emptySelectedCards = arr => {
-		setSelectedCards( [] );
-		return 'New Token successfully saved';
-	}
-	
-	const handleWrongMatchup = pipe( showBlankFace, emptySelectedCards );
-	
 	const updateAllStates = pipe(
 		saveWonCardIds,
 		displayWonToken,
@@ -120,19 +114,27 @@ const Game = props => {
 		emptySelectedCards
 	);
 
+	const setVictoryCard = () => {
+		if (numToMatch === 2) return '/images/doge.png';
+		if (numToMatch === 3) return '/images/dragon-ball.png';
+		if (numToMatch === 4) return '/images/steve.png';
+	}
+
 	const changeLevel = level => {
 		setNumToMatch( level );
 		setCards( randomSortCards(getCARDS(level)) );
 	}
+
+	const gameRef = useRef();
 	
 	return (
-		<SGameContainer>
-			<SCardsContainer className="mx-auto">
+		<div className="my-5" ref={gameRef}>
+			<SCardsContainer id="game" className="mx-auto">
 				<STitle className="text-center mb-1">Challenge Your Memory</STitle>
 				{displayCards(cards)}
 			</SCardsContainer>
-			<SelectLevel level={numToMatch} changeLevel={changeLevel} />
-		</SGameContainer>
+			<SelectLevel scrollTo={gameRef} level={numToMatch} changeLevel={changeLevel} />
+		</div>
 	)
 }
 
