@@ -1,76 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { pipe, concat } from 'ramda';
-import { SGameContainer, SImg, STitle } from '../utils/style';
-
-const CARDS = [
-
-	{
-		name: 'fries',
-		img: '/images/fries.png',
-		selected: false
-	},
-	{
-		name: 'cheeseburger',
-		img: '/images/cheeseburger.png',
-		selected: false
-	},
-	{
-		name: 'hot-dog',
-		img: '/images/hot-dog.png',
-		selected: false
-	},
-	{
-		name: 'ice-cream',
-		img: '/images/ice-cream.png',
-		selected: false
-	},
-	{
-		name: 'milkshake',
-		img: '/images/milkshake.png',
-		selected: false
-	},
-	{
-		name: 'pizza',
-		img: '/images/pizza.png',
-		selected: false
-	},
-	{
-		name: 'fries',
-		img: '/images/fries.png',
-		selected: false
-	},
-	{
-		name: 'cheeseburger',
-		img: '/images/cheeseburger.png',
-		selected: false
-	},
-	{
-		name: 'hot-dog',
-		img: '/images/hot-dog.png',
-		selected: false
-	},
-	{
-		name: 'ice-cream',
-		img: '/images/ice-cream.png',
-		selected: false
-	},
-	{
-		name: 'milkshake',
-		img: '/images/milkshake.png',
-		selected: false
-	},
-	{
-		name: 'pizza',
-		img: '/images/pizza.png',
-		selected: false
-	}
-];
-
-const VICTORY = '/images/steve.png';
-
-const SIMILAR_CARD_NUM = 2;
+import { getCARDS } from '../utils/helper';
+import { SCardsContainer, SImg, STitle } from '../utils/style';
+import SelectLevel from './SelectLevel';
 
 const Game = props => {
+
+	//Shuffle deck
+	const randomSortCards = arr => [ ...arr.sort(() => 0.5 - Math.random()) ];
+
+	const [ numToMatch, setNumToMatch ] = useState( 2 );
+	
+	const [ cards, setCards ] = useState( randomSortCards(getCARDS()) );
+
+	const [ selectedCards, setSelectedCards ] = useState( [] );
+
+	const [ hardWonCard, setHardWonCard ] = useState( [] );
 
 	/**
 	 * Returns an array of jsx elements
@@ -99,25 +44,17 @@ const Game = props => {
 	 */
 	const setCardFace = card => card.selected ? card.img : '/images/blank.png';
 	
+	// On click of the cards
 	const selectCard = e => {
-		if ( isSelectedCardFull() ) return;
+		if ( isSelectedCardFull() ) return; 			
 		const myCards = [ ...cards ];
 		myCards[e.target.dataset.id].selected = true;
-		setCards( myCards );
+		setCards( myCards ); 							
 		setSelectedCards( [...selectedCards, e.target.dataset.id] )
 	}
 
 	//Check no more than appropriate number of cards are selected
-	const isSelectedCardFull = () => selectedCards.length === SIMILAR_CARD_NUM;
-
-	//Shuffle deck
-	const randomSortCards = arr => [ ...arr.sort(() => 0.5 - Math.random()) ]
-	
-	const [ cards, setCards ] = useState( randomSortCards(CARDS) );
-
-	const [ selectedCards, setSelectedCards ] = useState( [] );
-
-	const [ hardWonCard, setHardWonCard ] = useState( [] );
+	const isSelectedCardFull = () => selectedCards.length === numToMatch;
 
 	//Goes into effect each time selectedCards changes
 	useEffect(
@@ -136,17 +73,30 @@ const Game = props => {
 			}
 
 			//Leaves if not all required card are selected
-			if ( selectedCards.length < SIMILAR_CARD_NUM ) return;
+			if ( selectedCards.length < numToMatch ) return;
 
-			//If a match, save Token, if not a match, flip them after 1s
-			isMatch() ? saveWonToken() : setTimeout( () => handleWrongMatchup(selectedCards), 1000 );
+			//If a match, save Token, if not a match, flip them after 900ms
+			isMatch() ? saveWonToken() : setTimeout( () => handleWrongMatchup(selectedCards), 900 );
 
 		}, [selectedCards]
 	)
 
-	const showBlankFace = arr => arr.forEach( id => cards[id].selected = false );
-
 	const isMatch = () => selectedCards.every( id => cards[ selectedCards[0] ].name === cards[ id ].name );
+	
+	const showBlankFace = arr => arr.forEach( 
+		id => {
+			let newCards = [ ...cards ];
+			newCards[id].selected = false;
+			setCards( newCards ); 
+		}
+	);
+	
+	const emptySelectedCards = arr => {
+		setSelectedCards( [] );
+		return 'New Token successfully saved';
+	}
+	
+	const handleWrongMatchup = pipe( showBlankFace, emptySelectedCards );
 
 	//Set Token path correctly
 	const setURI = id => `${window.location.origin}${cards[id].img}`;
@@ -162,27 +112,36 @@ const Game = props => {
 	}
 
 	//Show victory card in place of matched cards
-	const displayWonFace = arr => arr.forEach( id => cards[id].img = VICTORY );
+	const displayWonFace = arr => arr.forEach( id => cards[id].img = setVictoryCard() );
 
-	const emptySelectedCards = arr => {
-		setSelectedCards( [] );
-		return 'New Token successfully saved';
-	}
-	
-	const handleWrongMatchup = pipe( showBlankFace, emptySelectedCards );
-	
 	const updateAllStates = pipe(
 		saveWonCardIds,
 		displayWonToken,
 		displayWonFace,
 		emptySelectedCards
 	);
+
+	const setVictoryCard = () => {
+		if (numToMatch === 2) return '/images/doge.png';
+		if (numToMatch === 3) return '/images/dragon-ball.png';
+		if (numToMatch === 4) return '/images/steve.png';
+	}
+
+	const changeLevel = level => {
+		setNumToMatch( level );
+		setCards( randomSortCards(getCARDS(level)) );
+	}
+
+	const gameRef = useRef();
 	
 	return (
-		<SGameContainer className="mx-auto">
-			<STitle className="text-center mb-5">Challenge Your Memory</STitle>
-			{displayCards(cards)}
-		</SGameContainer>
+		<div className="my-5" ref={gameRef}>
+			<SCardsContainer id="game" className="mx-auto">
+				<STitle className="text-center mb-1">Challenge Your Memory</STitle>
+				{displayCards(cards)}
+			</SCardsContainer>
+			<SelectLevel scrollTo={gameRef} level={numToMatch} changeLevel={changeLevel} />
+		</div>
 	)
 }
 

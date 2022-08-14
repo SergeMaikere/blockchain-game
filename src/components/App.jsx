@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Web3 from 'web3';
 import MemoryToken from '../abis/MemoryToken.json';
-import Navbar from './Navbar';
 import Game from './Game';
 import Gallery from './Gallery';
 import CallToAction from './CallToAction';
@@ -115,14 +114,13 @@ const App = () => {
     					<CallToAction />
     				</div>
 
-    				<div className="col-lg-6">
+    				<div className="col-lg-6 text-center">
 						<Game
 						account={account}
 						tokenURIs={tokenURIs}
 						displayNewToken={setTokenURIs}
 						token={token} />
 					</div>
-
     			</div>
     			
     			<div className="row">

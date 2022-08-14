@@ -27,6 +27,15 @@ const GlobalStyle = createGlobalStyle`
 	  	margin: 0px;
 	  	height: 10vh;
 	  	background-color: ${Colors.quadrature};
+	  	scroll-behavior: smooth;
+	}
+
+	@media only screen and (max-width: 768px) {
+		* { 
+			margin: 0px !important;
+			padding: 0px !important;
+			width: fit-content;
+		}
 	}
 `;
 
@@ -49,13 +58,16 @@ const SImg = styled.img`
 `;
 
 
-const SGameContainer = styled.div`
+const SCardsContainer = styled.div`
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
 	max-width: 500px;
 	padding: 30px;
-	padding-top: 300px;
+`;
+
+const SGalleryContainer = styled.div`
+	margin-top: 150px;
 `;
 
 const SGallery = styled.div`
@@ -75,14 +87,28 @@ const SButton = styled.button`
 	color: ${Colors.quadrature};
 `;
 
+const SButtonLevel = styled.label`
+	font-family: babaprobold;
+	color: ${Colors.secondary};
+	background-color: ${Colors.primary};
+	border: 3px solid ${Colors.triaton};
+	&:hover {
+		background-color: ${Colors.triaton};
+		border: 3px solid ${Colors.primary};
+		color: ${Colors.quadrature};
+	}
+`;
+
 export { 
 	GlobalStyle, 
 	Colors, 
 	SBigTitle, 
 	STitle, 
-	SGameContainer, 
+	SCardsContainer,
+	SGalleryContainer,
 	SImg, 
 	SGallery, 
-	SButton, 
+	SButton,
+	SButtonLevel,
 	SCard 
 };
